@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+<nav th:fragment="nav">
+  <a class="brand" th:href="@{/}">TechShop</a>
+  <form th:action="@{/}" method="get" class="search">
+    <input name="q" placeholder="Search products..."><button class="btn">Search</button>
+  </form>
+  <span class="links">
+    <a th:href="@{/cart}">Cart (<span th:text="${cartCount}">0</span>)</a>
+    <a th:href="@{/orders}" sec:authorize="isAuthenticated()">My Orders</a>
+    <a th:href="@{/admin}" sec:authorize="hasRole('ADMIN')">Admin</a>
+    <a th:href="@{/login}" sec:authorize="!isAuthenticated()">Login</a>
+    <a th:href="@{/register}" sec:authorize="!isAuthenticated()">Register</a>
+    <form th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()" style="display:inline">
+      <button class="link">Logout (<span sec:authentication="name"></span>)</button>
+    </form>
+  </span>
+</nav>
+</body>
+</html>

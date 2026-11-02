@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My Orders</title><link rel="stylesheet" th:href="@{/style.css}"></head>
+<body>
+<div th:replace="~{layout :: nav}"></div>
+<main>
+  <h1>My Orders</h1>
+  <p th:if="${orders.isEmpty()}">No orders yet.</p>
+  <div class="box" th:each="o : ${orders}">
+    <h3>Order #<span th:text="${o.id}"></span> &middot; <span th:text="${o.status}"></span></h3>
+    <p class="muted" th:text="${#temporals.format(o.createdAt, 'dd MMM yyyy HH:mm')}"></p>
+    <ul><li th:each="i : ${o.items}" th:text="${i.productName} + ' x ' + ${i.quantity} + ' - $' + ${i.price}"></li></ul>
+    <strong th:text="'Total: $' + ${o.total}"></strong>
+  </div>
+</main>
+</body>
+</html>

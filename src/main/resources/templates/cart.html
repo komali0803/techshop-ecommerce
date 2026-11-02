@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cart</title><link rel="stylesheet" th:href="@{/style.css}"></head>
+<body>
+<div th:replace="~{layout :: nav}"></div>
+<main>
+  <h1>Your Cart</h1>
+  <p class="error" th:if="${param.error}">Not enough stock for one of the items.</p>
+  <p th:if="${lines.isEmpty()}">Your cart is empty. <a th:href="@{/}">Continue shopping</a></p>
+  <div class="scroll" th:unless="${lines.isEmpty()}">
+    <table>
+      <tr><th>Product</th><th>Price</th><th>Qty</th><th>Subtotal</th><th></th></tr>
+      <tr th:each="l : ${lines}">
+        <td th:text="${l.product.name}"></td>
+        <td th:text="'$' + ${l.product.price}"></td>
+        <td th:text="${l.quantity}"></td>
+        <td th:text="'$' + ${l.subtotal}"></td>
+        <td><form th:action="@{/cart/remove/{id}(id=${l.product.id})}" method="post"><button class="btn danger">Remove</button></form></td>
+      </tr>
+    </table>
+    <h2>Total: <span th:text="'$' + ${total}"></span></h2>
+    <form th:action="@{/checkout}" method="post"><button class="btn">Place Order</button></form>
+  </div>
+</main>
+</body>
+</html>
